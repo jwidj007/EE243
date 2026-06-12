@@ -453,7 +453,7 @@
     <h2>Limitations</h2>
     <p>
       Our experiments revealed three concrete failure modes. The first two were hypothesized based on the paper's
-      own conjectures. The third — generation instability — was an unexpected finding discovered empirically.
+      own conjectures. The third — general instability — was an unexpected finding discovered empirically.
     </p>
 
     <!-- FINDING 1: Hand noise -->
@@ -483,7 +483,7 @@
     <div class="experiment">
       <div class="experiment-header">
         <span class="tag tag-fail">Limitation 2</span>
-        <h3>Extreme Pose — Generation Instability (Normal 4)</h3>
+        <h3>Extreme Pose — General Instability (Normal 4)</h3>
       </div>
       <p>
         We ran the same extreme contortionist normal map with the same prompt three times. The results were strikingly
@@ -553,7 +553,7 @@
         <p>SMPL-X's limited finger resolution propagates to all generated images, making precise hand annotations impossible.</p>
       </div>
       <div class="finding-card">
-        <h4>Generation Instability ✗</h4>
+        <h4>General Instability ✗</h4>
         <p>Same input produces inconsistent outputs on extreme poses — missing body parts, mismatched clothing, clean results — all from identical prompts.</p>
       </div>
       <div class="finding-card">
@@ -566,7 +566,10 @@
   <!-- Video Walkthrough -->
   <section>
     <h2>Video Walkthrough</h2>
-    <p><a href="YOUR_YOUTUBE_LINK" target="_blank">Watch on YouTube →</a></p>
+     <p>A walkthrough of the implementation, experiments, and findings.</p>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/pmDcox7-wBI" allowfullscreen></iframe>
+      </div>
   </section>
 </main>
 
