@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EE243 — HumanWild Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --surface: #18181c;
+      --border: #2a2a30;
+      --accent: #7c6af7;
+      --accent-soft: rgba(124,106,247,0.12);
+      --success: #3ecf8e;
+      --fail: #f76a6a;
+      --text: #e8e8ec;
+      --muted: #888899;
+      --radius: 10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 64px 24px 48px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 620px;
+      font-size: 15px;
+    }
+
+    .meta {
+      margin-top: 24px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta-item strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    section {
+      margin-top: 64px;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    p {
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    p strong { color: var(--text); font-weight: 500; }
+
+    /* ── Pipeline diagram ── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+
+    .pipe-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .pipe-arrow {
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    /* ── Experiment cards ── */
+    .experiment {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .experiment-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .tag-success {
+      background: rgba(62,207,142,0.12);
+      color: var(--success);
+    }
+
+    .tag-fail {
+      background: rgba(247,106,106,0.12);
+      color: var(--fail);
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .image-card {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .image-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    .image-card .caption {
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    /* Normal map + output side by side */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .normal-map-card {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--accent);
+    }
+
+    .normal-map-card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    .normal-map-card .caption {
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--surface);
+    }
+
+    /* ── Findings summary ── */
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .finding-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--fail);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+
+    .finding-card.success-card {
+      border-left-color: var(--success);
+    }
+
+    .finding-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .finding-card p {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* ── Links ── */
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 18px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .btn:hover { background: var(--accent); color: #fff; text-decoration: none; }
+
+    /* ── Video embed ── */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-top: 16px;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      .comparison { grid-template-columns: 1fr; }
+      .pipeline { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">EE243 · Computer Vision · 2026</p>
+  <h1>3D Human Reconstruction<br>in the Wild with <span>HumanWild</span></h1>
+  <p class="subtitle">
+    An empirical evaluation of HumanWild's synthetic data generation pipeline,
+    tracing its lineage from Diffusion-HPC and probing its concrete failure modes
+    through targeted experiments.
+  </p>
+  <div class="meta">
+    <div class="meta-item"><strong>Authors</strong> Vihan Jagasia &amp; Jet Widjaja</div>
+    <div class="meta-item"><strong>Paper</strong> <a href="https://arxiv.org/abs/2403.11111" target="_blank">arXiv 2403.11111</a></div>
+    <div class="meta-item"><strong>Code</strong> <a href="https://github.com/YongtaoGE/WildHuman" target="_blank">YongtaoGE/WildHuman</a></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- BACKGROUND -->
+  <section>
+    <h2>Background</h2>
+    <p>
+      Accurate 3D Human Pose and Shape (HPS) estimation from a single RGB image requires large-scale annotated training data.
+      Collecting real-world 3D annotations is expensive — indoor mocap systems are constrained to lab settings,
+      and CG-rendered datasets suffer from a domain gap with real-world imagery.
+    </p>
+    <p>
+      <strong>Diffusion-HPC</strong> (3DV 2024) was our assigned paper. It proposed using Stable Diffusion with text prompts
+      to generate images and then estimating 3D poses as pseudo-labels. The core weakness was that relying solely on text prompts
+      lacked granularity to control body pose, and the resulting pseudo-labels were noisy. Diffusion-HPC proved the concept
+      but left significant room for improvement in label quality and pose control.
+    </p>
+    <p>
+      Tracing the lineage of Diffusion-HPC, we identified <strong>HumanWild</strong> (TPAMI 2025) as the most recent
+      open-source paper that directly builds upon and improves it. HumanWild addresses Diffusion-HPC's fundamental
+      label noise problem by starting from ground-truth SMPL-X parameters, rendering surface normal maps, and using
+      a custom-trained ControlNet to generate photo-realistic images conditioned on those normals from the start.
+      Labels are injected upfront rather than estimated retroactively — a direct architectural response to
+      Diffusion-HPC's core weakness.
+    </p>
+
+    <div class="pipeline">
+      <div class="pipe-step">SMPL-X Parameters</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Surface Normal Map</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">ControlNet + Text Prompt</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Generated Image + 3D Annotation</div>
+    </div>
+  </section>
+
+  <!-- EXPERIMENT DESIGN -->
+  <section>
+    <h2>Experiment Design</h2>
+    <p>
+      We designed targeted experiments to empirically probe two concrete limitations acknowledged in the paper,
+      and one additional failure mode discovered through our own testing.
+    </p>
+    <p>
+      <strong>Hand region label noise</strong> — the paper explicitly conjectures that SMPL-X's limited hand mesh resolution
+      introduces label noise in generated annotations. We tested this by pairing hand-prominent normal maps with prompts
+      explicitly requiring precise finger configurations (surgeon, pianist, sign language interpreter), where any failure
+      in finger articulation is immediately obvious.
+    </p>
+    <p>
+      <strong>Extreme pose generalization</strong> — HumanWild samples poses from the AMASS mocap dataset, which is biased
+      toward everyday human motion. To stress test the pipeline beyond this distribution, we used surface normal maps of
+      extreme contortionist poses and observed the generator's ability to maintain anatomical coherence. Failures here —
+      such as a completely missing head or inconsistent clothing across limbs — reveal that the ControlNet struggles to
+      faithfully reproduce body structure when the input pose deviates significantly from its training distribution.
+    </p>
+    <p>
+      <strong>Phantom limb hallucination</strong> — an unexpected finding discovered through testing. Across two separate
+      experiments — a ballet dancer and a sprinting athlete — the model generated ghost limbs that have no basis in the
+      input normal map. In the ballet output, a duplicate leg appears on the same side as the raised leg. In the sprinter
+      output, a phantom limb materializes at the waist region. This recurring pattern across different normal maps and
+      prompts suggests a systemic failure in limb count consistency, which would directly corrupt body part annotations
+      in generated training data.
+    </p>
+    <p>
+      Surface normal maps were sourced directly from the <a href="https://huggingface.co/datasets/geyongtao/HumanWild" target="_blank">HumanWild HuggingFace dataset</a>
+      (clean SMPL-X renders) and from custom extreme pose images processed through NormalBaeDetector.
+      Each normal map was paired with 3 different text prompts to test appearance diversity and pose fidelity simultaneously.
+    </p>
+    <a class="btn" href="https://github.com/jwidj007/EE243/blob/main/HumanWild_Generator.ipynb" target="_blank">View Inference Notebook</a>
+  </section>
+
+  <!-- NORMAL MAPS -->
+  <section>
+    <h2>Input Normal Maps</h2>
+    <p>
+      Each experiment uses a surface normal map as structural input to HumanWild's ControlNet.
+      The colors encode the 3D orientation of each surface — these are clean SMPL-X renders sourced
+      from the HumanWild HuggingFace dataset and custom extreme pose extractions.
+    </p>
+    <div class="image-grid">
+      <div class="image-card">
+        <img src="Images/normal1.png" alt="Normal map — asymmetric kick" />
+        <div class="caption">Normal 1 — asymmetric pose, one arm extended, one leg raised</div>
+      </div>
+      <div class="image-card">
+        <img src="Images/normal2.png" alt="Normal map — open hands head tilt" />
+        <div class="caption">Normal 2 — head tilted up, open hands</div>
+      </div>
+      <div class="image-card">
+        <img src="Images/normal3.png" alt="Normal map — sprinter" />
+        <div class="caption">Normal 3 — forward leaning sprinter pose</div>
+      </div>
+      <div class="image-card">
+        <img src="Images/normal4.png" alt="Normal map — contortionist backbend" />
+        <div class="caption">Normal 4 — extreme contortionist backbend</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUCCESS CASES -->
+  <section>
+    <h2>Strengths</h2>
+    <p>
+      HumanWild demonstrates strong pose fidelity and appearance diversity on standard poses.
+      The ControlNet conditioning successfully locks body structure while the text prompt drives
+      clothing, identity, scene, and context.
+    </p>
+
+    <div class="experiment">
+      <div class="experiment-header">
+        <span class="tag tag-success">Success</span>
+        <h3>Asymmetric Pose — Correct Laterality (Normal 1)</h3>
+      </div>
+      <p>
+        The normal map encodes an asymmetric pose with one arm extended and one leg raised.
+        Despite varying the text prompt (martial arts, ballet, football), the model consistently
+        follows the structural pose from the normal map while generating contextually appropriate appearances.
+      </p>
+      <div class="image-grid">
+        <div class="image-card">
+          <img src="Images/sucess1.jpg" alt="Success case — asymmetric pose football" />
+          <div class="caption">Prompt: football player kicking — asymmetric pose correctly followed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIMITATIONS -->
+  <section>
+    <h2>Limitations</h2>
+    <p>
+      Our experiments revealed three concrete failure modes. The first two were hypothesized based on the paper's
+      own conjectures. The third — generation instability — was an unexpected finding discovered empirically.
+    </p>
+
+    <!-- FINDING 1: Hand noise -->
+    <div class="experiment">
+      <div class="experiment-header">
+        <span class="tag tag-fail">Limitation 1</span>
+        <h3>Hand Label Noise — Undefined Finger Articulation (Normal 2)</h3>
+      </div>
+      <p>
+        SMPL-X has limited hand mesh resolution — finger joints are not accurately represented in the surface normal map.
+        As a result, even when prompts explicitly require precise hand configurations, the generated hands are consistently
+        blobby with no individual finger detail. The paper explicitly conjectures this as a source of label noise.
+      </p>
+      <p>
+        This is a systemic issue: the generated image cannot show accurate finger positioning because the normal map
+        input contains none. Any downstream HPS regressor trained on this data will inherit degraded hand annotations.
+      </p>
+      <div class="image-grid">
+        <div class="image-card">
+          <img src="Images/fail1.jpg" alt="Surgeon — shapeless gloved hands" />
+          <div class="caption">Surgeon prompt — surgical gloves rendered as shapeless blobs with undefined fingers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINDING 2: Extreme pose instability -->
+    <div class="experiment">
+      <div class="experiment-header">
+        <span class="tag tag-fail">Limitation 2</span>
+        <h3>Extreme Pose — Generation Instability (Normal 4)</h3>
+      </div>
+      <p>
+        We ran the same extreme contortionist normal map with the same prompt three times. The results were strikingly
+        inconsistent — one output was clean, one had the head completely missing, and one rendered mismatched clothing
+        colors across the person's legs. This stochastic instability on out-of-distribution poses is a significant
+        concern: if the same input produces wildly different outputs, the quality of generated training annotations
+        cannot be guaranteed, and the SAM-based IoU filtering the paper relies on may not catch all corrupted samples.
+      </p>
+      <div class="image-grid">
+        <div class="image-card">
+          <img src="Images/success2.jpg" alt="Contortionist — clean output" />
+          <div class="caption">Run 1 — clean output, pose followed correctly</div>
+        </div>
+        <div class="image-card">
+          <img src="Images/fail2.jpg" alt="Contortionist — missing head" />
+          <div class="caption">Run 2 — same prompt, head completely absent</div>
+        </div>
+        <div class="image-card">
+          <img src="Images/fail3.jpg" alt="Contortionist — mismatched clothing" />
+          <div class="caption">Run 3 — same prompt, mismatched clothing colors across legs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINDING 3: Limb hallucination -->
+    <div class="experiment">
+      <div class="experiment-header">
+        <span class="tag tag-fail">Limitation 3</span>
+        <h3>Phantom Limb Hallucination — Recurring Across Experiments (Normals 1 &amp; 3)</h3>
+      </div>
+      <p>
+        An unexpected finding discovered through testing: across two separate experiments with different normal maps
+        and prompts, the model generated ghost limbs with no basis in the input. In the ballet output (Normal 1),
+        a duplicate leg appears on the same side as the raised leg. In the sprinter output (Normal 3), a phantom
+        limb materializes at the waist region. This recurring pattern across different inputs suggests a systemic
+        failure in limb count consistency — a problem that would directly corrupt body part annotations in generated
+        training data, and one the paper does not acknowledge.
+      </p>
+      <div class="image-grid">
+        <div class="image-card">
+          <img src="Images/fail4.jpg" alt="Ballet — phantom leg" />
+          <div class="caption">Ballet prompt (Normal 1) — duplicate leg on same side as raised leg</div>
+        </div>
+        <div class="image-card">
+          <img src="Images/fail5.jpg" alt="Sprinter — phantom limb at waist" />
+          <div class="caption">Sprinter prompt (Normal 3) — phantom limb artifact at waist region</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section>
+    <h2>Summary of Findings</h2>
+
+    <div class="findings-grid">
+      <div class="finding-card success-card">
+        <h4>Pose Fidelity ✓</h4>
+        <p>Normal map conditioning reliably locks body pose across varied text prompts, including asymmetric configurations.</p>
+      </div>
+      <div class="finding-card success-card">
+        <h4>Appearance Diversity ✓</h4>
+        <p>Text prompts successfully drive clothing, identity, and scene variation without disrupting pose structure.</p>
+      </div>
+      <div class="finding-card">
+        <h4>Hand Label Noise ✗</h4>
+        <p>SMPL-X's limited finger resolution propagates to all generated images, making precise hand annotations impossible.</p>
+      </div>
+      <div class="finding-card">
+        <h4>Generation Instability ✗</h4>
+        <p>Same input produces inconsistent outputs on extreme poses — missing body parts, mismatched clothing, clean results — all from identical prompts.</p>
+      </div>
+      <div class="finding-card">
+        <h4>Phantom Limb Hallucination ✗</h4>
+        <p>Duplicate or ghost limbs appear across multiple experiments, corrupting body part count in generated annotations.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>
